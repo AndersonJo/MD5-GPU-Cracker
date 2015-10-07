@@ -1,6 +1,7 @@
 .project
 .cproject
 .settings
+.idea
 Debug
 
-md5kernel.cu
+*.pyc

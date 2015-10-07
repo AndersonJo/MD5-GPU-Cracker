@@ -1,0 +1,9 @@
+-I/usr/local/lib/python2.7/dist-packages/numpy/core/include 
+-I/usr/local/cuda-7.5/include 
+-I/usr/include/python2.7 
+-I/usr/include
+-arch=sm_20 
+-shared
+--ptxas-options=-v 
+--compiler-options '-fPIC'
+
