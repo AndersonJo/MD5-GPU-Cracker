@@ -121,8 +121,8 @@ __global__ void crack(char* string, int *digit, uint *h1, uint *h2, uint *h3, ui
 
 char* anderson_main(char* hash, int digit, const char* string, int N_BLOCK = 256, int N_THREAD = 1024,
 		int display = 0) {
-
 	int N_TOTAL = N_BLOCK * N_THREAD;
+	printf("N_TOTAL %d", N_TOTAL);
 
 	// Declare Variables
 	const unsigned long long int HOST_LOOP = pow(strlen(string), digit) / LOOP;
@@ -153,6 +153,7 @@ char* anderson_main(char* hash, int digit, const char* string, int N_BLOCK = 256
 	for (i = 0; i < N_TOTAL; i++) {
 		increments[i] = 0;
 	}
+	printf("increments :%p %d", &increments, increments);
 
 	for (i = 0; i < digit; i++) {
 		check[i] = 0;
@@ -190,7 +191,7 @@ char* anderson_main(char* hash, int digit, const char* string, int N_BLOCK = 256
 				dev_hasFound, dev_answer, dev_check);
 
 		cudaMemcpy(&hasFound, dev_hasFound, sizeof(int), cudaMemcpyDeviceToHost);
-		if (display == 1 && hasFound == 1) {
+		if (display == 1 || hasFound == 1) {
 			cudaMemcpy(&answer, dev_answer, sizeof(unsigned char) * digit + 1, cudaMemcpyDeviceToHost);
 			printf("ANSWER: %s\n", answer);
 			break;
@@ -228,6 +229,7 @@ char* anderson_main(char* hash, int digit, const char* string, int N_BLOCK = 256
 }
 
 int main(int argc, char **argv) {
+	printf("nnnnnnnnn");
 	if (argc < 3) {
 		printf(" hash digit [possible string] [num of blocks] [num of threads] \n");
 		return 1;
@@ -243,12 +245,14 @@ int main(int argc, char **argv) {
 	if (argc >= 4) {
 		string = argv[3];
 	}
+
 	if (argc >= 5) {
 		blocks = atoi(argv[4]);
 	}
 	if (argc >= 6) {
 		threads = atoi(argv[5]);
 	}
+
 	anderson_main(hash, digit, string, blocks, threads, 1);
 	free(hash);
 	return 1;
