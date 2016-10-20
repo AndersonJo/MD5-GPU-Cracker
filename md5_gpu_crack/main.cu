@@ -234,7 +234,7 @@ unsigned char* anderson_main(char* hash, int digit, const char* string, int N_BL
 
 int main(int argc, char **argv) {
 	if (argc < 3) {
-		printf(" hash digit [possible string] [num of blocks] [num of threads] \n");
+		printf(" hash digit [num of blocks] [num of threads] [possible string]\n");
 		return 1;
 	}
 
@@ -244,17 +244,18 @@ int main(int argc, char **argv) {
 			"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!\"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~\0";
 	int blocks = 512;
 	int threads = 1024;
-
+        printf("argc: %d %s \n", argc, argv[4]);
 	if (argc >= 4) {
-		string = argv[3];
+		blocks = atoi(argv[3]);
+	}
+	if (argc >= 5) {
+		threads = atoi(argv[4]);
 	}
 
-	if (argc >= 5) {
-		blocks = atoi(argv[4]);
-	}
 	if (argc >= 6) {
-		threads = atoi(argv[5]);
+		string = argv[5];
 	}
+	
 	printf("hash:%s digit:%d string:%s blocks:%d threads:%d\n", hash, digit, string, blocks, threads);
 
 	anderson_main(hash, digit, string, blocks, threads, 1);
